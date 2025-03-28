@@ -12,11 +12,11 @@ class Entity(ABC):
         self.name = name
         self.surf = pygame.image.load('./assets/' + name + '.png').convert_alpha()
         self.rect = self.surf.get_rect(left=position[0], top=position[1])
-        # self.health = ENTITY_HEALTH[self.name]
-        # self.damage = ENTITY_DAMAGE[self.name]
-        # self.score = ENTITY_SCORE[self.name]
-        # self.speed = 0
-        # self.last_dmg = 'None'
+        self.health = ENTITY_HEALTH[self.name]
+        self.damage = ENTITY_DAMAGE[self.name]
+        self.score = ENTITY_SCORE[self.name]
+        self.speed = 0
+        self.last_dmg = 'None'
 
     @abstractmethod
     def move(self, ):

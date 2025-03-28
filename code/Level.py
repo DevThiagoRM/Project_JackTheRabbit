@@ -4,7 +4,7 @@ import pygame
 import sys
 
 from code.Const import TIMEOUT_LEVEL, EVENT_ENEMY, SPAWN_TIME, EVENT_TIMEOUT, TIMEOUT_STEP, \
-    C_WHITE, WIN_HEIGHT
+    C_WHITE, WIN_HEIGHT, C_GREEN
 from code.Entity import Entity
 from code.EntityFactory import EntityFactory
 from code.EntityMediator import EntityMediator
@@ -51,22 +51,17 @@ class Level:
                 self.window.blit(source=ent.surf, dest=ent.rect)
                 ent.move()
 
-                # if isinstance(ent, (Player, Enemy)):
-                #     shoot = ent.shoot()
-                #     if shoot is not None:
-                #         self.entity_list.append(shoot)
-                # if ent.name == 'Player':
-                #     self.level_text(20, f'Player - Health {ent.health} | Score: {ent.score}', C_GREEN, (10, 25))
+                if ent.name == 'Player':
+                    self.level_text(20, f'Player - Health {ent.health} | Score: {ent.score}', C_GREEN, (10, 25))
 
             for event in pygame.event.get():
-                if event.type == pygame.QUIT:  # QUIT GAME
+
+                # QUIT GAME
+                if event.type == pygame.QUIT:
                     pygame.quit()
                     sys.exit()
 
-                # if event.type == EVENT_ENEMY:
-                #     choice = random.choice['Enemy1', 'Enemy2']
-                #     self.entity_list.append(EntityFactory.get_entity(choice))
-
+                # EVENT_TIMEOUT
                 if event.type == EVENT_TIMEOUT:
                     self.timeout -= TIMEOUT_STEP
                     if self.timeout == 0:

@@ -3,7 +3,7 @@
 import pygame
 import sys
 
-from code.Const import WIN_WIDTH, MENU_OPTION, C_YELLOW, C_WHITE
+from code.Const import WIN_WIDTH, MENU_OPTION, C_YELLOW, C_WHITE, C_BLACK, C_CYAN, C_ORANGE
 from code.Entity import Entity
 from code.EntityFactory import EntityFactory
 from pygame import Surface, Rect
@@ -25,22 +25,23 @@ class Menu:
 
     def run(self):
         menu_option = 0  # INITIAL POSITION
-        pygame.mixer.music.load('./assets/Menu.mp3')# PATH MENU MUSIC
+
+        # MENU MUSIC
+        pygame.mixer.music.load('./assets/Menu.mp3') # PATH MENU MUSIC
         pygame.mixer.music.play(-1)  # LOOP MUSIC
 
-
-
         while True:
+            # DISPLAY
 
-            # REFRESH DISPLAY
+            # UPDATE BACKGROUND
             for ent in self.entity_list:
                 self.window.blit(source=ent.surf, dest=ent.rect)
                 ent.move()
 
-            # self.window.blit(source=self.ent.surf, dest=self.ent.rect)
-
             # SHOW TITLE MENU
+            self.menu_text(50, True, "Jack", C_BLACK, (((WIN_WIDTH / 2) - 2), 72))
             self.menu_text(50, True, "Jack", C_WHITE, ((WIN_WIDTH / 2), 70))
+            self.menu_text(50, True, "The Rabbit", C_BLACK, (((WIN_WIDTH / 2) - 2), 122))
             self.menu_text(50, True, "The Rabbit", C_WHITE, ((WIN_WIDTH / 2), 120))
 
             # SHOW MENU OPTIONS
@@ -55,7 +56,8 @@ class Menu:
             # CHECK FOR ALL EVENTS
             for event in pygame.event.get():
                 match event.type:
-                    case pygame.QUIT:
+
+                    case pygame.QUIT: # QUIT GAME
                         pygame.quit()
                         sys.exit()
 

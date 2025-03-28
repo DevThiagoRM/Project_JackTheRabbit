@@ -12,13 +12,20 @@ class EntityFactory:
 
     @staticmethod
     def get_entity(entity_name=str, position=(0, 0)):
-        # match entity_name:
-        #     case 'Level1Bg':
-        #         list_bg = []
-        #         for i in range(7):  # Level1Bg images number
-        #             list_bg.append(Background(f'Level1Bg{i}', (0, 0)))
-        #             list_bg.append(Background(f'Level1Bg{i}', (WIN_WIDTH, 0)))
-        #         return list_bg
+        match entity_name:
+            case'MenuBg':
+                list_bg = []
+                for i in range(7):  # MenuBg images number
+                    list_bg.append(Background(f'MenuBg{i+1}', (0, 0)))
+                    list_bg.append(Background(f'MenuBg{i+1}', (WIN_WIDTH, 0)))
+                return list_bg
+
+            # case 'Level1Bg':
+            #     list_bg = []
+            #     for i in range(7):  # Level1Bg images number
+            #         list_bg.append(Background(f'Level1Bg{i}', (0, 0)))
+            #         list_bg.append(Background(f'Level1Bg{i}', (WIN_WIDTH, 0)))
+            #     return list_bg
 
             # case 'Level2Bg':
             #     list_bg = []
@@ -38,4 +45,4 @@ class EntityFactory:
             #
             # case 'Enemy2':
             #     return Enemy('Enemy2', (WIN_WIDTH + 10, random.randint(40, WIN_HEIGHT - 40)))
-     pass
+        pass

@@ -56,6 +56,14 @@ ENTITY_SCORE = {
 }
 
 ENTITY_SPEED = {
+    'MenuBg0' : 0,
+    'MenuBg1' : 1,
+    'MenuBg2' : 2,
+    'MenuBg3' : 3,
+    'MenuBg4' : 4,
+    'MenuBg5' : 5,
+    'MenuBg6' : 6,
+    'MenuBg7' : 7,
     'Level1Bg0': 0,
     'Level1Bg1': 1,
     'Level1Bg2': 2,
@@ -120,8 +128,8 @@ SPAWN_TIME = 500
 TIMEOUT_STEP = 100
 TIMEOUT_LEVEL = 5000
 # W
-WIN_WIDTH = 1920  # Width
-WIN_HEIGHT = 1080  # Height
+WIN_WIDTH = 1366  # Width
+WIN_HEIGHT = 768  # Height
 
 # S
 SCORE_POS = {'Title': (WIN_WIDTH / 2, 50),

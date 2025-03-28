@@ -4,14 +4,18 @@ import pygame
 import sys
 
 from code.Const import WIN_WIDTH, MENU_OPTION, C_YELLOW, C_WHITE
+from code.Entity import Entity
+from code.EntityFactory import EntityFactory
 from pygame import Surface, Rect
 from pygame.font import Font
+from typing import List
 
 class Menu:
+
     def __init__(self, window: Surface):
         self.window = window
-        self.surf = pygame.image.load('./assets/MenuBg00.png').convert_alpha()
-        self.rect = self.surf.get_rect(left=0, top=0)
+        self.entity_list: List[Entity] = []
+        self.entity_list.extend(EntityFactory.get_entity('MenuBg'))  # Menu Background
 
     def menu_text(self, text_size: int, text_bold: bool, text: str, text_color: tuple, text_center_pos: tuple):
         text_font: Font = pygame.font.SysFont(name="Comic Sans", size=text_size, bold=text_bold)
@@ -27,8 +31,15 @@ class Menu:
 
 
         while True:
+
+            # REFRESH DISPLAY
+            for ent in self.entity_list:
+                self.window.blit(source=ent.surf, dest=ent.rect)
+                ent.move()
+
+            # self.window.blit(source=self.ent.surf, dest=self.ent.rect)
+
             # SHOW TITLE MENU
-            self.window.blit(source=self.surf, dest=self.rect)
             self.menu_text(50, True, "Jack", C_WHITE, ((WIN_WIDTH / 2), 70))
             self.menu_text(50, True, "The Rabbit", C_WHITE, ((WIN_WIDTH / 2), 120))
 

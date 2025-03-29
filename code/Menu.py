@@ -28,6 +28,7 @@ class Menu:
 
         # MENU MUSIC
         pygame.mixer.music.load('./assets/Menu.mp3') # PATH MENU MUSIC
+        pygame.mixer.music.set_volume(0.5)
         pygame.mixer.music.play(-1)  # LOOP MUSIC
 
         # REFRESH RATE

@@ -23,6 +23,7 @@ class Score:
     def save(self, game_mode: str, player_score: list[int]):
         # LOAD SCORE MUSIC
         pygame.mixer.music.load('./assets/Menu.mp3')
+        pygame.mixer.music.set_volume(0.5)
         pygame.mixer.music.play(-1)  # Param to Loop music
         db_proxy = DbProxy('DbScore')
         name = ''
@@ -48,7 +49,7 @@ class Score:
                             db_proxy.save({'name': name, 'score': score, 'date': get_formatted_date()})
                             return
 
-                        elif event.key in [K_RETURN]: # KEY BACKSPACE
+                        elif event.key == K_BACKSPACE: # KEY BACKSPACE
                             name = name[:-1]
 
                         elif len(name) < 4 and event.unicode.isalnum(): # NORMAL KEY (ONLY ALPHANUMERICS)

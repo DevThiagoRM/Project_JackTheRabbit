@@ -43,10 +43,10 @@ class EntityFactory:
                     list_bg.append(Background(f'Level3Bg{i}', (WIN_WIDTH, 0)))
                 return list_bg
 
-            case 'Player':
-                list_sprite = []
-                for i in range(1):  # Level3Bg IMAGES NUMBER
-                    list_sprite.append(Background(f'Player{i}', (120, WIN_HEIGHT - 27)))
-                return list_sprite
+            case 'Player':  # Mude para 'Player' em vez de 'Player0'
+                player_sprites = []
+                for i in range(4):  # Player0, Player1, Player2, Player3
+                    player_sprites.append(Player(f'Player{i}', (120, WIN_HEIGHT - 25)))
+                return player_sprites  # Retorna todos os sprites
 
         pass

@@ -4,7 +4,7 @@ import pygame
 import sys
 
 from code.Const import TIMEOUT_LEVEL, EVENT_TIMEOUT, TIMEOUT_STEP, \
-    C_WHITE, WIN_HEIGHT, WIN_WIDTH, C_GREEN
+    C_WHITE, WIN_HEIGHT, WIN_WIDTH
 from code.Entity import Entity
 from code.EntityFactory import EntityFactory
 from pygame import Surface, Rect
@@ -42,11 +42,10 @@ class Level:
 
             # REFRESH DISPLAY
             for ent in self.entity_list:
-                if ent.name == 'Player':
+                if 'Player' in ent.name:  # Verifica se é um sprite do Player
                     self.level_text(20, False, f'Jack - Health {ent.health} | Score: {ent.score}', C_WHITE, (10, 30))
-                else:
-                    self.window.blit(source=ent.surf, dest=ent.rect) # UPDATE WINDOW
-                    ent.move()
+                self.window.blit(source=ent.surf, dest=ent.rect)  # Renderiza TODAS as entidades
+                ent.move()  # Atualiza movimento e animação
 
             for event in pygame.event.get():
 

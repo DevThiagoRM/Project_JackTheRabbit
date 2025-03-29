@@ -1,28 +1,31 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 import pygame
+import random
 import sys
 
 from code.Const import TIMEOUT_LEVEL, EVENT_TIMEOUT, TIMEOUT_STEP, \
-    C_WHITE, WIN_HEIGHT, WIN_WIDTH
+    C_WHITE, WIN_HEIGHT, WIN_WIDTH, EVENT_OBSTACLE, SPAWN_TIME
 from code.Entity import Entity
 from code.EntityFactory import EntityFactory
 from pygame import Surface, Rect
 from pygame.font import Font
 from typing import List
 
+from code.EntityMediator import EntityMediator
+
 
 class Level:
     def __init__(self, window: Surface, name: str):
-        self.timeout = TIMEOUT_LEVEL
+        self.start_time = pygame.time.get_ticks()  # Marca o tempo inicial
         self.window = window
         self.name = name
         self.entity_list: List[Entity] = []
         self.entity_list.extend(EntityFactory.get_entity(self.name + 'Bg'))  # LOAD BACKGROUNDS
         self.entity_list.extend(EntityFactory.get_entity('Player'))  # LOAD PLAYER
-        pygame.time.set_timer(EVENT_TIMEOUT, TIMEOUT_STEP)
+        pygame.time.set_timer(EVENT_OBSTACLE, SPAWN_TIME, 0)
 
-    def level_text(self, text_size: int, text_bold: bool, text: str, text_color: tuple, text_pos: tuple, ):
+    def level_text(self, text_size: int, text_bold: bool, text: str, text_color: tuple, text_pos: tuple):
         text_font: Font = pygame.font.SysFont(name="Comic Sans", size=text_size, bold=text_bold)
         text_surf: Surface = text_font.render(text, True, text_color).convert_alpha()
         text_rect: Rect = text_surf.get_rect(left=text_pos[0], top=text_pos[1])
@@ -40,12 +43,25 @@ class Level:
         while True:
             clock.tick(60)  # FPS
 
+            # Atualiza o tempo decorrido
+            self.timeout = (pygame.time.get_ticks() - self.start_time) / 1000  # Converte para segundos
+
             # REFRESH DISPLAY
             for ent in self.entity_list:
-                if 'Player' in ent.name:
-                    self.level_text(20, False, f'Jack - Health {ent.health} | Score: {ent.score}', C_WHITE, (10, 30))
-                self.window.blit(source=ent.surf, dest=ent.rect)  # RENDER ALL ENTITIES
-                ent.move()  # UPDATE ANIMATION AND MOVE
+                if isinstance(ent, list):
+                    for sub_ent in ent:
+                        if 'Player' in sub_ent.name:
+                            self.level_text(20, False, f'Jack - Health {sub_ent.health} | Score: {self.timeout:.1f}',
+                                            C_WHITE, (10, 30))
+                        self.window.blit(source=sub_ent.surf, dest=sub_ent.rect)
+                        sub_ent.move()
+
+                elif isinstance(ent, Entity):
+                    if 'Player' in ent.name:
+                        self.level_text(20, False, f'Jack - Health {ent.health} | Score: {self.timeout:.1f}',
+                                        C_WHITE, (10, 30))
+                    self.window.blit(source=ent.surf, dest=ent.rect)
+                    ent.move()
 
             for event in pygame.event.get():
 
@@ -54,16 +70,19 @@ class Level:
                     pygame.quit()
                     sys.exit()
 
-                # EVENT_TIMEOUT
-                if event.type == EVENT_TIMEOUT:
-                    self.timeout -= TIMEOUT_STEP
-                    if self.timeout == 0:
-                        pass
+                if event.type == EVENT_OBSTACLE:
+                    choice = random.choice(('Obstacle1', 'Obstacle2', 'Obstacle3'))
+                    self.entity_list.append(EntityFactory.get_entity(choice))
 
             # PRINTED TEXT
-            self.level_text(20, False, f'{self.name.upper()} - Timeout: {self.timeout / 1000:.1f}s', C_WHITE, (10, 5))
+            self.level_text(20, False, f'{self.name.upper()}', C_WHITE, (10, 5))
             self.level_text(20, False, f'FPS: {clock.get_fps():.0f}', C_WHITE, (WIN_WIDTH - 80, 5))
             self.level_text(20, False, f'Entities: {len(self.entity_list)}', C_WHITE,
                             (WIN_WIDTH - 112.5, WIN_HEIGHT - 30))
 
             pygame.display.flip()
+
+            # COLLISIONS
+            EntityMediator.verify_collision(entity_list=self.entity_list)
+            EntityMediator.verify_health(entity_list=self.entity_list)
+

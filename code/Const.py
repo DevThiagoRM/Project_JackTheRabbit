@@ -1,4 +1,5 @@
 import pygame
+import random
 
 # C
 # COLORS
@@ -11,6 +12,7 @@ C_YELLOW = (255, 255, 128) # YELLOW
 C_WHITE = (255, 255, 255) # WHITE
 
 # E
+EVENT_OBSTACLE = pygame.USEREVENT + 1
 EVENT_TIMEOUT = pygame.USEREVENT + 2
 
 ENTITY_DAMAGE = {
@@ -40,10 +42,13 @@ ENTITY_DAMAGE = {
     'Level3Bg2': 0,
     'Level3Bg3': 0,
     'Level3Bg4': 0,
-    'Player0': 0,
-    'Player1': 0,
-    'Player2': 0,
-    'Player3': 0,
+    'Player0': 1,
+    'Player1': 1,
+    'Player2': 1,
+    'Player3': 1,
+    'Obstacle1': 1,
+    'Obstacle2': 1,
+    'Obstacle3': 1,
 }
 
 ENTITY_SCORE = {
@@ -77,6 +82,9 @@ ENTITY_SCORE = {
     'Player1': 0,
     'Player2': 0,
     'Player3': 0,
+    'Obstacle1': 0,
+    'Obstacle2': 0,
+    'Obstacle3': 0,
 }
 
 ENTITY_SPEED = {
@@ -112,6 +120,9 @@ ENTITY_SPEED = {
     'Player1': 10,
     'Player2': 10,
     'Player3': 10,
+    'Obstacle1': 10,
+    'Obstacle2': 15,
+    'Obstacle3': 20,
 }
 
 ENTITY_HEALTH = {
@@ -141,10 +152,13 @@ ENTITY_HEALTH = {
     'Level3Bg2': 999,
     'Level3Bg3': 999,
     'Level3Bg4': 999,
-    'Player0': 0,
-    'Player1': 0,
-    'Player2': 0,
-    'Player3': 0,
+    'Player0': 3,
+    'Player1': 3,
+    'Player2': 3,
+    'Player3': 3,
+    'Obstacle1': 1,
+    'Obstacle2': 1,
+    'Obstacle3': 1,
 }
 
 # M
@@ -158,11 +172,14 @@ PLAYER_KEY_DOWN = pygame.K_DOWN
 PLAYER_KEY_SPACE = pygame.K_SPACE
 
 # S
-SPAWN_TIME = 500
+random = random.randint(1000, 2500)
+SPAWN_TIME = random
+
 
 # T
 TIMEOUT_STEP = 100
 TIMEOUT_LEVEL = 20000
+
 # W
 WIN_WIDTH = 1366  # Width
 WIN_HEIGHT = 768  # Height

@@ -11,7 +11,7 @@ class Score:
 
     def __init__(self, window: Surface):
         self.window = window
-        self.surf = pygame.image.load('./assets/ScoreBg.png').convert_alpha()
+        self.surf = pygame.image.load('./assets/Level3Bg0.png').convert_alpha()
         self.rect = self.surf.get_rect(left=0, top=0)
 
     def score_text(self, text_size: int, text: str, text_color: tuple, text_center_pos: tuple):

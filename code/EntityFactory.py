@@ -2,11 +2,11 @@
 # -*- coding: utf-8 -*-
 import os
 import random
-
 import pygame
 
 from code.Background import Background
 from code.Const import WIN_WIDTH, WIN_HEIGHT
+from code.Obstacle import Obstacle
 from code.Player import Player
 
 
@@ -46,7 +46,15 @@ class EntityFactory:
             case 'Player':
                 player_sprites = []
                 for i in range(4):  # Player0, Player1, Player2, Player3
-                    player_sprites.append(Player(f'Player{i}', (120, WIN_HEIGHT - 25)))
+                    player_sprites.append(Player(f'Player{i}', (120, WIN_HEIGHT - 56)))
                 return player_sprites  # RETURN ALL SPRITES
 
-        pass
+            case 'Obstacle1':
+                return Obstacle('Obstacle1', (WIN_WIDTH + 10, WIN_HEIGHT - 32))
+
+            case 'Obstacle2':
+                return Obstacle('Obstacle2', (WIN_WIDTH + 10, WIN_HEIGHT - 63))
+
+            case _:
+                return []
+

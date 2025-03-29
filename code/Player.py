@@ -9,6 +9,11 @@ class Player(Entity):
         self.current_sprite = 0  # CONTROL SPRITE SHOWED (0 a 3)
         self.animation_speed = 0.2  # ANIMATION SPEED (+ Bigger, + Slow)
         self.last_update = pygame.time.get_ticks()  # LAST FRAME TIME
+        self.damage = 1
+        self.invincible = False
+        self.invincible_timer = 0
+        self.invincible_duration = 500
+        self.last_dmg_from = None
 
         # JUMP CONTROL VARs
         self.jumping = False  # JUMP STATE
@@ -17,6 +22,12 @@ class Player(Entity):
         self.jump_power = -10  # POWER INITIAL JUMP
 
     def move(self):
+        if self.invincible and pygame.time.get_ticks() - self.invincible_timer > self.invincible_duration:
+            self.invincible = False
+            self.last_dmg_from = None
+
+        super().move()
+
         pressed_key = pygame.key.get_pressed()
         movement = [0, 0]  # [x, y]
 
@@ -25,11 +36,11 @@ class Player(Entity):
         # JUMP
         if pressed_key[PLAYER_KEY_SPACE] and not self.jumping:
             self.jumping = True
-            self.jump_velocity = self.jump_power  # START JUMP WITH DEFINITED SPEED
+            self.jump_velocity = self.jump_power
 
         if self.jumping:
             movement[1] += self.jump_velocity
-            self.jump_velocity += self.gravity  # A gravidade diminui a velocidade do pulo
+            self.jump_velocity += self.gravity
 
             if self.rect.bottom >= WIN_HEIGHT - 10:
                 self.rect.bottom = WIN_HEIGHT - 10

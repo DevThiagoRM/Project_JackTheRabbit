@@ -32,10 +32,19 @@ class EntityMediator:
                     and ent1.rect.bottom >= ent2.rect.top
                     and ent1.rect.top <= ent2.rect.bottom
             ):
-                ent1.health -= ent2.damage
-                ent2.health -= ent1.damage
-                ent1.last_dmg = ent2.name
-                ent2.last_dmg = ent1.name
+                player = ent1 if isinstance(ent1, Player) else ent2
+                obstacle = ent2 if isinstance(ent2, Obstacle) else ent1
+
+                last_dmg_from = getattr(player, 'last_dmg_from', None)
+                invincible = getattr(player, 'invincible', False)
+
+                if not invincible or last_dmg_from != obstacle.name:
+                    player.health -= obstacle.damage
+                    player.last_dmg = obstacle.name
+
+                    player.last_dmg_from = obstacle.name
+                    player.invincible = True
+                    player.invincible_timer = pygame.time.get_ticks()
 
     @staticmethod
     def verify_collision(entity_list: list[Entity]):
@@ -49,25 +58,7 @@ class EntityMediator:
     @staticmethod
     def verify_health(entity_list: list[Entity], window):
         for ent in entity_list[:]:
-            if isinstance(ent, list):
-                for sub_ent in ent:
-                    if isinstance(sub_ent, Entity) and sub_ent.health <= 0:
-                        if isinstance(sub_ent, Obstacle):
-                            entity_list.remove(ent)
-                        elif isinstance(sub_ent, Player):
-                            # Captura o Score antes de encerrar
-                            score_value = pygame.time.get_ticks() / 1000
-                            score = Score(window)
-                            score.save("NEW GAME", [score_value])
-                            score.show()
-                            return
-            elif isinstance(ent, Entity) and ent.health <= 0:
-                if isinstance(ent, Obstacle):
-                    entity_list.remove(ent)
-                elif isinstance(ent, Player):
-                    score_value = pygame.time.get_ticks() / 1000
-                    score = Score(window)
-                    score.save("NEW GAME", [score_value])
-                    score.show()
-                    return
+            if isinstance(ent, Entity) and ent.health <= 0 and isinstance(ent, Player):
+                return True
+        return False
 

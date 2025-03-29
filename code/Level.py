@@ -13,11 +13,12 @@ from pygame.font import Font
 from typing import List
 
 from code.EntityMediator import EntityMediator
+from code.Score import Score
 
 
 class Level:
     def __init__(self, window: Surface, name: str):
-        self.start_time = pygame.time.get_ticks()  # Marca o tempo inicial
+        self.start_time = pygame.time.get_ticks()
         self.window = window
         self.name = name
         self.entity_list: List[Entity] = []
@@ -43,8 +44,15 @@ class Level:
         while True:
             clock.tick(60)  # FPS
 
-            # Atualiza o tempo decorrido
-            self.timeout = (pygame.time.get_ticks() - self.start_time) / 1000  # Converte para segundos
+            player_dead = EntityMediator.verify_health(self.entity_list, self.window)
+            if player_dead:
+                score = Score(self.window)
+                score_value = pygame.time.get_ticks() / 1000
+                score.save("NEW GAME", [score_value])
+                score.show()
+                return
+
+            self.timeout = (pygame.time.get_ticks() - self.start_time) / 1000
 
             # REFRESH DISPLAY
             for ent in self.entity_list:

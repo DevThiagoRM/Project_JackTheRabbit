@@ -4,7 +4,7 @@ import pygame
 from datetime import datetime
 from pygame import Surface, Rect, K_BACKSLASH, K_BACKSPACE, K_ESCAPE, K_RETURN
 from pygame.font import Font
-from code.Const import C_YELLOW, SCORE_POS, C_GREEN, MENU_OPTION, C_WHITE
+from code.Const import C_YELLOW, SCORE_POS, C_GREEN, MENU_OPTION, C_WHITE, WIN_WIDTH, WIN_HEIGHT
 from code.DbProxy import DbProxy
 
 class Score:
@@ -29,9 +29,10 @@ class Score:
         while True:
             # DRAW IMAGES
             self.window.blit(source=self.surf, dest=self.rect)
-            self.score_text(48, " YOU WIN!", C_GREEN, SCORE_POS['Title'])
-            text = 'Enter Player 1 name (4 characters)'
+            self.score_text(48, "GAME OVER", C_GREEN, SCORE_POS['Title'])
+            self.score_text(20, 'Enter Player 1 name (4 characters)', C_WHITE, SCORE_POS['EnterName'])
             score = player_score[0]
+
             if game_mode == MENU_OPTION[0]:  # NEW GAME
                 score = player_score[0]
 
@@ -45,7 +46,6 @@ class Score:
                     case pygame.KEYDOWN:
                         if event.key == pygame.K_RETURN and len(name) == 4:  # KEY ENTER
                             db_proxy.save({'name': name, 'score': score, 'date': get_formatted_date()})
-                            self.show()
                             return
 
                         elif event.key in [K_RETURN]: # KEY BACKSPACE

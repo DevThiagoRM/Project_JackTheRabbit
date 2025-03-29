@@ -22,7 +22,7 @@ class Score:
 
     def save(self, game_mode: str, player_score: list[int]):
         # LOAD SCORE MUSIC
-        pygame.mixer.music.load('./assets/Score.mp3')
+        pygame.mixer.music.load('./assets/Menu.mp3')
         pygame.mixer.music.play(-1)  # Param to Loop music
         db_proxy = DbProxy('DbScore')
         name = ''
@@ -65,7 +65,7 @@ class Score:
 
     def show(self):
         # SCORE MUSIC
-        pygame.mixer.music.load('./assets/Score.mp3')
+        pygame.mixer.music.load('./assets/Menu.mp3')
         pygame.mixer.music.play(-1)  # Param to Loop music
         # DRAW IMAGES
         self.window.blit(source=self.surf, dest=self.rect)
@@ -76,7 +76,7 @@ class Score:
         db_proxy.close()
         for player_score in list_score:
             id_, name, score, date = player_score
-            self.score_text(20, f'   {name}        {score :05d}               {date}', C_YELLOW,
+            self.score_text(20, f'   {name}        {int(score)}               {date}', C_YELLOW,
                             SCORE_POS[list_score.index(player_score)])
 
         while True:

@@ -1,8 +1,11 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
+import pygame
+
 from code.Obstacle import Obstacle
 from code.Entity import Entity
 from code.Player import Player
+from code.Score import Score
 
 
 class EntityMediator:
@@ -44,14 +47,27 @@ class EntityMediator:
                 EntityMediator.__verify_collision_entity(entity1, entity2)
 
     @staticmethod
-    def verify_health(entity_list: list[Entity]):
+    def verify_health(entity_list: list[Entity], window):
         for ent in entity_list[:]:
             if isinstance(ent, list):
                 for sub_ent in ent:
                     if isinstance(sub_ent, Entity) and sub_ent.health <= 0:
                         if isinstance(sub_ent, Obstacle):
                             entity_list.remove(ent)
+                        elif isinstance(sub_ent, Player):
+                            # Captura o Score antes de encerrar
+                            score_value = pygame.time.get_ticks() / 1000  # Tempo de jogo como score
+                            score = Score(window)
+                            score.save("NEW GAME", [score_value])  # Salva o score
+                            score.show()  # Mostra a tela de Score
+                            return  # Sai da função para evitar erros
             elif isinstance(ent, Entity) and ent.health <= 0:
                 if isinstance(ent, Obstacle):
                     entity_list.remove(ent)
+                elif isinstance(ent, Player):
+                    score_value = pygame.time.get_ticks() / 1000
+                    score = Score(window)
+                    score.save("NEW GAME", [score_value])
+                    score.show()
+                    return
 

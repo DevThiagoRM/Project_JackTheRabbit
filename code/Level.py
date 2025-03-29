@@ -84,5 +84,6 @@ class Level:
 
             # COLLISIONS
             EntityMediator.verify_collision(entity_list=self.entity_list)
-            EntityMediator.verify_health(entity_list=self.entity_list)
+            EntityMediator.verify_health(entity_list=self.entity_list, window=self.window)
+
 

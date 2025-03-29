@@ -3,7 +3,7 @@
 import pygame
 import sys
 
-from code.Const import WIN_WIDTH, MENU_OPTION, C_YELLOW, C_WHITE, C_BLACK, C_CYAN, C_ORANGE
+from code.Const import WIN_WIDTH, MENU_OPTION, C_YELLOW, C_WHITE, C_BLACK
 from code.Entity import Entity
 from code.EntityFactory import EntityFactory
 from pygame import Surface, Rect
@@ -30,7 +30,13 @@ class Menu:
         pygame.mixer.music.load('./assets/Menu.mp3') # PATH MENU MUSIC
         pygame.mixer.music.play(-1)  # LOOP MUSIC
 
+        # REFRESH RATE
+        clock = pygame.time.Clock()
+
         while True:
+            # FPS
+            clock.tick(60)
+
             # DISPLAY
 
             # UPDATE BACKGROUND

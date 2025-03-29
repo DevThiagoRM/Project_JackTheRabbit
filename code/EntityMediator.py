@@ -34,17 +34,16 @@ class EntityMediator:
             ):
                 player = ent1 if isinstance(ent1, Player) else ent2
                 obstacle = ent2 if isinstance(ent2, Obstacle) else ent1
-
                 last_dmg_from = getattr(player, 'last_dmg_from', None)
                 invincible = getattr(player, 'invincible', False)
 
                 if not invincible or last_dmg_from != obstacle.name:
                     player.health -= obstacle.damage
                     player.last_dmg = obstacle.name
-
                     player.last_dmg_from = obstacle.name
                     player.invincible = True
                     player.invincible_timer = pygame.time.get_ticks()
+                    obstacle.health = 0
 
     @staticmethod
     def verify_collision(entity_list: list[Entity]):
@@ -58,7 +57,10 @@ class EntityMediator:
     @staticmethod
     def verify_health(entity_list: list[Entity], window):
         for ent in entity_list[:]:
-            if isinstance(ent, Entity) and ent.health <= 0 and isinstance(ent, Player):
-                return True
+            if isinstance(ent, Entity) and ent.health <= 0:
+                if isinstance(ent, Player):
+                    return True  # Player Dead
+                elif isinstance(ent, Obstacle):
+                    entity_list.remove(ent)
         return False
 

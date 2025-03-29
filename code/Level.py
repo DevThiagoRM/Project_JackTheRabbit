@@ -85,8 +85,8 @@ class Level:
             # PRINTED TEXT
             self.level_text(20, False, f'{self.name.upper()}', C_WHITE, (10, 5))
             self.level_text(20, False, f'FPS: {clock.get_fps():.0f}', C_WHITE, (WIN_WIDTH - 80, 5))
-            self.level_text(20, False, f'Entities: {len(self.entity_list)}', C_WHITE,
-                            (WIN_WIDTH - 112.5, WIN_HEIGHT - 30))
+            # self.level_text(20, False, f'Entities: {len(self.entity_list)}', C_WHITE,
+            #                 (WIN_WIDTH - 112.5, WIN_HEIGHT - 30))
 
             pygame.display.flip()
 

@@ -108,10 +108,10 @@ ENTITY_SPEED = {
     'Level3Bg2': 2,
     'Level3Bg3': 3,
     'Level3Bg4': 4,
-    'Player0': 0,
-    'Player1': 0,
-    'Player2': 0,
-    'Player3': 0,
+    'Player0': 10,
+    'Player1': 10,
+    'Player2': 10,
+    'Player3': 10,
 }
 
 ENTITY_HEALTH = {
@@ -155,9 +155,7 @@ MENU_OPTION = ('NEW GAME',
 # P
 PLAYER_KEY_UP = pygame.K_UP
 PLAYER_KEY_DOWN = pygame.K_DOWN
-PLAYER_KEY_LEFT = pygame.K_LEFT
-PLAYER_KEY_RIGHT = pygame.K_RIGHT
-
+PLAYER_KEY_SPACE = pygame.K_SPACE
 
 # S
 SPAWN_TIME = 500

@@ -42,10 +42,10 @@ class Level:
 
             # REFRESH DISPLAY
             for ent in self.entity_list:
-                if 'Player' in ent.name:  # Verifica se é um sprite do Player
+                if 'Player' in ent.name:
                     self.level_text(20, False, f'Jack - Health {ent.health} | Score: {ent.score}', C_WHITE, (10, 30))
-                self.window.blit(source=ent.surf, dest=ent.rect)  # Renderiza TODAS as entidades
-                ent.move()  # Atualiza movimento e animação
+                self.window.blit(source=ent.surf, dest=ent.rect)  # RENDER ALL ENTITIES
+                ent.move()  # UPDATE ANIMATION AND MOVE
 
             for event in pygame.event.get():
 

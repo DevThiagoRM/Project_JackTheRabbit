@@ -56,11 +56,11 @@ class EntityMediator:
                             entity_list.remove(ent)
                         elif isinstance(sub_ent, Player):
                             # Captura o Score antes de encerrar
-                            score_value = pygame.time.get_ticks() / 1000  # Tempo de jogo como score
+                            score_value = pygame.time.get_ticks() / 1000
                             score = Score(window)
-                            score.save("NEW GAME", [score_value])  # Salva o score
-                            score.show()  # Mostra a tela de Score
-                            return  # Sai da função para evitar erros
+                            score.save("NEW GAME", [score_value])
+                            score.show()
+                            return
             elif isinstance(ent, Entity) and ent.health <= 0:
                 if isinstance(ent, Obstacle):
                     entity_list.remove(ent)

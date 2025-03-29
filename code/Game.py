@@ -31,16 +31,10 @@ class Game:
 
                 # LEVEL 1
                 level = Level(self.window, 'Level1')
-                level_return = level.run()
-
-                # LEVEL 2
-                if level_return:
-                    level = Level(self.window, 'Level2')
-                    level_return = level.run()
+                level.run()
 
             elif menu_option == MENU_OPTION[1]:  # SCORE
                 score.show()
-                pass
 
             elif menu_option == MENU_OPTION[2]:  # QUIT
                 pygame.quit()

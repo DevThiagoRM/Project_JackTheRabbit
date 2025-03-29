@@ -2,7 +2,7 @@ import sys
 import pygame
 
 from datetime import datetime
-from pygame import Surface, Rect, K_BACKSLASH, K_BACKSPACE, K_ESCAPE
+from pygame import Surface, Rect, K_BACKSLASH, K_BACKSPACE, K_ESCAPE, K_RETURN
 from pygame.font import Font
 from code.Const import C_YELLOW, SCORE_POS, C_GREEN, MENU_OPTION, C_WHITE
 from code.DbProxy import DbProxy
@@ -11,7 +11,7 @@ class Score:
 
     def __init__(self, window: Surface):
         self.window = window
-        self.surf = pygame.image.load('./assets/Level3Bg0.png').convert_alpha()
+        self.surf = pygame.image.load('./assets/ScoreBg.png').convert_alpha()
         self.rect = self.surf.get_rect(left=0, top=0)
 
     def score_text(self, text_size: int, text: str, text_color: tuple, text_center_pos: tuple):
@@ -32,17 +32,8 @@ class Score:
             self.score_text(48, " YOU WIN!", C_GREEN, SCORE_POS['Title'])
             text = 'Enter Player 1 name (4 characters)'
             score = player_score[0]
-            if game_mode == MENU_OPTION[0]:  # SINGLE PLAYER
+            if game_mode == MENU_OPTION[0]:  # NEW GAME
                 score = player_score[0]
-            if game_mode == MENU_OPTION[1]:  # COOPERATIVE
-                score = (player_score[0] + player_score[1]) / 2
-                text = 'Enter Team Name (4 characters):'
-            if game_mode == MENU_OPTION[2]:  # COMPETITIVE
-                if player_score[0] > player_score[1]:  # PLAYER 1 WIN
-                    score = player_score[0]
-                elif player_score[0] < player_score[1]:  # PLAYER 2 WIN
-                    score = player_score[1]
-            self.score_text(20, text, C_WHITE, SCORE_POS['EnterName'])
 
             # CHECK FOR ALL EVENTS
             for event in pygame.event.get():
@@ -56,10 +47,13 @@ class Score:
                             db_proxy.save({'name': name, 'score': score, 'date': get_formatted_date()})
                             self.show()
                             return
-                        elif event.key == K_BACKSPACE: # KEY BACKSPACE
+
+                        elif event.key in [K_RETURN]: # KEY BACKSPACE
                             name = name[:-1]
+
                         elif len(name) < 4 and event.unicode.isalnum(): # NORMAL KEY (ONLY ALPHANUMERICS)
                             name += event.unicode.upper() # CONVERT TO UPPER
+
             self.score_text(20, name, C_WHITE, SCORE_POS['Name'])
             pygame.display.flip() # REFRESH DISPLAY
 
@@ -87,7 +81,7 @@ class Score:
                         pygame.quit()
                         sys.exit()
                     case pygame.KEYDOWN:
-                        if event.key == K_ESCAPE:
+                        if event.key in [K_ESCAPE]:
                             return
             pygame.display.flip() # REFRESH DISPLAY
 
